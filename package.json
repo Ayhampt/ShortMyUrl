@@ -26,6 +26,7 @@
     "ioredis": "^5.11.1",
     "mongoose": "^9.10.3",
     "nodemailer": "^9.0.3",
+    "redis": "^6.3.0",
     "uuid": "^9.0.1",
     "winston": "^3.19.0",
     "winston-daily-rotate-file": "^5.0.0",

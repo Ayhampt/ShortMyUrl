@@ -3,15 +3,11 @@ import dotenv from "dotenv";
 
 type serverConfig = {
   PORT: number;
-  REDIS_PORT: number;
-  REDIS_HOST: string;
+  MONGO_URI: string;
+  REDIS_URL: string;
+  REDIS_COUNTER_KEY: string;
 };
-type DBConfig = {
-  DB_HOST: string;
-  DB_USER: string;
-  DB_PASSWORD: string;
-  DB_NAME: string;
-};
+
 function loadEnv() {
   dotenv.config();
   console.log("environment variables loaded");
@@ -20,12 +16,7 @@ loadEnv();
 
 export const serverConfig: serverConfig = {
   PORT: Number(process.env.PORT) || 8002,
-  REDIS_PORT: Number(process.env.REDIS_PORT) || 6378,
-  REDIS_HOST: process.env.REDIS_HOST || "localhost",
-};
-export const DBConfig: DBConfig = {
-  DB_HOST: process.env.DB_HOST || "localhost",
-  DB_USER: process.env.DB_USER || "root",
-  DB_PASSWORD: process.env.DB_PASSWORD || "root",
-  DB_NAME: process.env.DB_NAME || "test",
+  MONGO_URI: process.env.MONGO_URI || "mongodb://localhost:27017/short_my_url",
+  REDIS_URL: process.env.REDIS_URL || "redis://localhost:6378",
+  REDIS_COUNTER_KEY: process.env.REDIS_COUNTER_KEY || "short_my_url_counter",
 };
