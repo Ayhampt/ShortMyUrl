@@ -8,6 +8,8 @@ import { InitRedis } from "./config/redis";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { connectToDatabase } from "./config/db";
 import { trpcRouter } from "./routers/trpc";
+import { redirectUrl } from "./controllers/url.controller";
+
 const app = express();
 
 app.use(express.json());
@@ -23,6 +25,9 @@ app.use(
     router: trpcRouter,
   }),
 );
+
+app.get("/:shortUrl", redirectUrl);
+
 app.use("/api/v1", v1Router);
 app.use(genericErrorHandler);
 

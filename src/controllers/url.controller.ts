@@ -5,6 +5,7 @@ import { UrlRepository } from "../repositories/url.repository";
 import { UrlService } from "../services/url.service";
 import logger from "../config/logger";
 import { InternalServerError } from "../utils/errors/app.error";
+import { Request, Response, NextFunction } from "express";
 
 const urlService = new UrlService(new UrlRepository(), new CacheRepository());
 
@@ -40,3 +41,19 @@ export const urlController = {
       }
     }),
 };
+
+export async function redirectUrl(
+  req: Request<{ shortUrl: string }>,
+  res: Response,
+  next: NextFunction,
+) {
+  const { shortUrl } = req.params;
+  const urlService = new UrlService(new UrlRepository(), new CacheRepository());
+
+  const url = await urlService.getOriginalUrl(shortUrl);
+  if (!url) {
+    res.status(404).json({ message: "Short URL not found", success: false });
+    return;
+  }
+  res.redirect(url.originalUrl);
+}
